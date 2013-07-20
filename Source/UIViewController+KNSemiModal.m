@@ -220,9 +220,10 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         overlay.backgroundColor = [UIColor blackColor];
         overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         overlay.tag = kSemiModalOverlayTag;
+		overlay.alpha = 0;
         
         // Take screenshot and scale
-        UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
+        //UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
         [target addSubview:overlay];
         
         // Dismiss button (if allow)
@@ -239,11 +240,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         
         // Begin overlay animation
 		if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
-			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+			//[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
 		}
 		NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
         [UIView animateWithDuration:duration animations:^{
-            ss.alpha = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
+            //ss.alpha = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
+			overlay.alpha = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
         }];
         
         // Present view animated
@@ -352,12 +354,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }];
     
     // Begin overlay animation
-    UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
+    /*UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
 	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
-	}
+	}*/
     [UIView animateWithDuration:duration animations:^{
-        ss.alpha = 1;
+        //ss.alpha = 1;
+		overlay.alpha = 0;
     } completion:^(BOOL finished) {
         if(finished){
             [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
